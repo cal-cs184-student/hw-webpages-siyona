@@ -1,116 +1,310 @@
 <html>
-	<head>
-		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=default'></script>
-		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-		<style>
-			h1 {
-				text-align: center;
-			}
+  <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=default"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      h1 {
+        text-align: center;
+      }
 
-			.container {
-				margin: 0 auto;
-				padding: 60px 20%;
-			}
+      .container {
+        margin: 0 auto;
+        padding: 60px 20%;
+      }
 
-			figure {
-				text-align: center;
-			}
+      figure {
+        text-align: center;
+      }
 
-			img {
-				display: inline-block;
-			}
+      img {
+        display: inline-block;
+      }
 
-			body {
-				font-family: 'Inter', sans-serif;
-			}
-		</style>
-	</head>
-	<body>
-		<div class="container">
-		<h1>CS184/284A Spring 2025 Homework 2 Write-Up</h1>
-		<div style="text-align: center;">Names: </div>
+      body {
+        font-family: "Inter", sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>CS184/284A Spring 2025 Homework 2 Write-Up</h1>
+      <div style="text-align: center">Names:</div>
 
-		<br>
+      <br />
 
-		Link to webpage: (TODO) <a href="https://cs184.eecs.berkeley.edu/sp25">cs184.eecs.berkeley.edu/sp25</a>
+      Link to webpage: (TODO)
+      <a
+        href="https://cal-cs184-student.github.io/hw-webpages-siyona/hw2/index.html"
+        >https://cal-cs184-student.github.io/hw-webpages-siyona/hw2/index.html</a
+      >
 
-		<br>
-		
-		Link to GitHub repository: (TODO) <a href="https://cs184.eecs.berkeley.edu/sp25">cs184.eecs.berkeley.edu/sp25</a>
+      <br />
 
-		<figure>
-			<img src="teapot.png" alt="Teapot" style="width:50%"/>
-			<figcaption>You can add images with captions!</figcaption>
-		</figure>
+      Link to GitHub repository: (TODO)
+      <a
+        href="https://github.com/cal-cs184-student/sp25-hw1-noah-and-siyona.git"
+        >https://github.com/cal-cs184-student/sp25-hw1-noah-and-siyona.git</a
+      >
 
-		<!--
+      <figure>
+        <img src="teapot.png" alt="Teapot" style="width: 50%" />
+        <figcaption>You can add images with captions!</figcaption>
+      </figure>
+
+      <!--
 		We've already added one heading per part, to make your write-up as navigable when grading. Please fit your write-up within these sections!
 		-->
 
-		<h2>Overview</h2>
-		Give a high-level overview of what you implemented in this homework. Think about what you've built as a whole. Share your thoughts on what interesting things you've learned from completing the homework.
+      <h2>Overview</h2>
+      Give a high-level overview of what you implemented in this homework. Think
+      about what you've built as a whole. Share your thoughts on what
+      interesting things you've learned from completing the homework.
 
-		<h2>Section I: Bezier Curves and Surfaces</h2>
+      <h2>Section I: Bezier Curves and Surfaces</h2>
 
-		<h3>Part 1: Bezier curves with 1D de Casteljau subdivision</h3>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+      <h3>Part 1: Bezier curves with 1D de Casteljau subdivision</h3>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+      veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+      commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+      velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+      cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+      est laborum.
 
-		<p>Here is an example 2x2 gridlike structure using an HTML table. Each <b>tr</b> is a row and each <b>td</b> is a column in that row. You might find this useful for framing and showing your result images in an organized fashion.</p>
-		<div style="display: flex; flex-direction: column; align-items: center;">
-			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+      <p>
+        Here is an example 2x2 gridlike structure using an HTML table. Each
+        <b>tr</b> is a row and each <b>td</b> is a column in that row. You might
+        find this useful for framing and showing your result images in an
+        organized fashion.
+      </p>
+
+      <h3>Part 2: Bezier surfaces with separable 1D de Casteljau</h3>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+      veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+      commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+      velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+      cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+      est laborum.
+
+      <h2>Section II: Triangle Meshes and Half-Edge Data Structure</h2>
+
+      <h3>Part 3: Area-weighted vertex normals</h3>
+      <p>The area weighted normal vectors were computed with the following process:
+		<ol>
+			<li>Traverse from the starting vertex clockwise to find adjacent vertices 
+				(halfedge -> twin -> vertex -> next) and create a list of outgoing vectors by
+				subtracting each adjacent vertex's coordinates from the starting/given vertex.
+			</li>
+			<li>
+				Iterate through all the resulting vectors pointing to adjacent vertices and for
+				each adjacent pair in the list, find the cross product. Add this to a new list of
+				<code>cross( vectors[n], vectors[n + 1] )</code> adjacent face normal vectors. Ensure that
+				the cross product of the last item and first item are also added.
+			</li>
+			<li>
+				Sum all the resulting normal vectors and then multiply by -1 because vectors were multiplied in
+				clockwise order. Then use the <code>Vector3D::unit</code> to find the resulting unit normal vector.
+				<b>return this value.</b>
+			</li>
+		</ol>
+		<div style="display: flex; flex-direction: column; align-items: center">
+			<table
+			  style="width: 100%; text-align: center; border-collapse: collapse"
+			>
 			  <tr>
-				<td style="text-align: center;">
-				  <img src="teapot.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
+				<td style="text-align: center">
+				  <img src="./q3/noBlinnPhong.png" width="400px" />
+				  <figcaption>Without vertex normals.</figcaption>
 				</td>
-				<td style="text-align: center;">
-				  <img src="teapot.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
-				</td>
-			  </tr>
-			  <tr>
-				<td style="text-align: center;">
-				  <img src="teapot.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
-				</td>
-				<td style="text-align: center;">
-				  <img src="teapot.png" width="400px"/>
-				  <figcaption>Caption goes here.</figcaption>
+				<td style="text-align: center">
+				  <img src="./q3/blinnPhong.png" width="400px" />
+				  <figcaption>With vertex normals.</figcaption>
 				</td>
 			  </tr>
 			</table>
-		</div>
+		  </div>
 
-		<h3>Part 2: Bezier surfaces with separable 1D de Casteljau</h3>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		  As can be seen above, with the vertex normals implemented and with Phong shading added, the resulting image is much
+		  smoother, and without the mesh boundaries present, the transition between distant vertices still looks much more smooth
+		  and round, rather than a more blocky and flatter shading.
+	  </p>
 
-		<h2>Section II: Triangle Meshes and Half-Edge Data Structure</h2>
+      <h3>Part 4: Edge flip</h3>
+      The edge flip implementation was very simple. Because only halfedges, vertices, and faces in the quadrilateral where the edge
+	  flip is taking place are affected, I drew a diagram before the edge flip labeling each halfedge (inside the quadrilateral), vertex,
+	  and face (only <code>f1</code> and <code>f2</code>). Then I drew a diagram after the edge flip with the same labels as a reference.
+	  A sample diagram is below:
+	  <br></br>
+	  <div style="display: flex; flex-direction: column; align-items: center">
+		<table
+		  style="width: 100%; text-align: center; border-collapse: collapse"
+		>
+		  <tr>
+			<td style="text-align: center">
+			  <img src="./q4/beforeflip.png" width="400px" />
+			  <figcaption>Before edge flips</figcaption>
+			</td>
+			<td style="text-align: center">
+			  <img src="./q4/afterflip.png" width="400px" />
+			  <figcaption>After edge flips</figcaption>
+			</td>
+		  </tr>
+		</table>
+	  </div>
+	  <br></br>
+	  Then in the code, I declared the following:
+	  <pre>
+		<code>
+	HalfedgeIter h1, h2, h3, h4, h5, h6;
+	FaceIter f1, f2;
+	VertexIter v1, v2, v3, v4;
+		</code>
+	  </pre>
+	  Then, before modifying any pointers, I used the halfedge data structure to assign each of these to the correct object. Finally,
+	  I used the above variables to reassign all pointers for all above variables.
+	  <br></br>
 
-		<h3>Part 3: Area-weighted vertex normals</h3>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+	  <div style="display: flex; flex-direction: column; align-items: center">
+		<table
+		  style="width: 100%; text-align: center; border-collapse: collapse"
+		>
+		  <tr>
+			<td style="text-align: center">
+			  <img src="./q4/noflips.png" width="400px" />
+			  <figcaption>Before edge flips</figcaption>
+			</td>
+			<td style="text-align: center">
+			  <img src="./q4/flips.png" width="400px" />
+			  <figcaption>After edge flips</figcaption>
+			</td>
+		  </tr>
+		</table>
+	  </div>
 
-		<h3>Part 4: Edge flip</h3>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+	  <br></br>
+	  Thankfully, I ran into no issues with this implementation and did not need to debug.
 
-		<h3>Part 5: Edge split</h3>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
-		<h3>Part 6: Loop subdivision for mesh upsampling</h3>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+      <h3>Part 5: Edge split</h3>
+      For Edge split, I took a similar approach to question 4 in that I drew a before and after diagram of all the 
+	  edges, halfedges, vertices, and faces, and labeled them all with variable names. This can be seen below.
+	  <br></br>
 
-		<h2>(Optional) Section III: Potential Extra Credit - Art Competition: Model something Creative</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+	  <div style="display: flex; flex-direction: column; align-items: center">
+		<table
+		  style="width: 100%; text-align: center; border-collapse: collapse"
+		>
+		  <tr>
+			<td style="text-align: center">
+			  <img src="./q5/beforesplit.png" width="400px" />
+			  <figcaption>Before edge split</figcaption>
+			</td>
+			<td style="text-align: center">
+			  <img src="./q5/aftersplit.png" width="400px" />
+			  <figcaption>After edge split</figcaption>
+			</td>
+		  </tr>
+		</table>
+	  </div>
+	  <br></br>
 
-		<h2>Additional Notes (please remove)</h2>
-		<ul>
-			<li>You can also add code if you'd like as so: <code>code code code</code></li>
-			<li>If you'd like to add math equations, 
-				<ul>
-					<li>You can write inline equations like so: \( a^2 + b^2 = c^2 \)</li>
-					<li>You can write display equations like so: \[ a^2 + b^2 = c^2 \]</li>
-				</ul>
-			</li>
-		</ul>
-		</div>
-	</body>
+	  In a similar process to question 4, I declared and assigned 
+
+	  <pre>
+		<code>
+	HalfedgeIter h1, h2, h3, h4, h5, h6;
+	FaceIter f1, f2;
+	VertexIter v1, v2, v3, v4;
+		</code>
+	  </pre>
+
+	  As well as declared and initialized (using the <code>newHalfedge</code> function and others).
+
+	  <pre>
+		<code>
+	EdgeIter e7, e8, e9, e10, e11, e12;
+	HalfedgeIter h7, h8, h9, h10, h11, h12;
+	FaceIter f3, f4;
+	VertexIter v5;
+		</code>
+	  </pre>
+
+	  Then using the declared variables above, I reassigned all values for all variables I declared above, according
+	  to the second diagram. Again, I didn't run into any debugging issues, thankfully.
+	  <br></br>
+	  The position of v5 was assigned to <code>(v1->position + v3->position) / 2.0;</code> (the midpoint of v1 and v3).
+	  <br></br>
+
+	  <div style="display: flex; flex-direction: column; align-items: center">
+		<table
+		  style="width: 100%; text-align: center; border-collapse: collapse"
+		>
+		  <tr>
+			<td style="text-align: center">
+			  <img src="./q5/original.png" width="400px" />
+			  <figcaption>Original teapot (before splits)</figcaption>
+			</td>
+			<td style="text-align: center">
+			  <img src="./q5/splitonly.png" width="400px" />
+			  <figcaption>After edge splits</figcaption>
+			</td>
+		  </tr>
+		  <tr>
+			<td style="text-align: center">
+			  <img src="./q5/original.png" width="400px" />
+			  <figcaption>Original teapot (before split/flip combination)</figcaption>
+			</td>
+			<td style="text-align: center">
+			  <img src="./q5/splitandflip.png" width="400px" />
+			  <figcaption>After combination of splits & flips</figcaption>
+			</td>
+		  </tr>
+		</table>
+	  </div>
+
+
+      <h3>Part 6: Loop subdivision for mesh upsampling</h3>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+      veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+      commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+      velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+      cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+      est laborum.
+
+      <h2>
+        (Optional) Section III: Potential Extra Credit - Art Competition: Model
+        something Creative
+      </h2>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+      veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+      commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+      velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+      cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+      est laborum.
+
+      <h2>Additional Notes (please remove)</h2>
+      <ul>
+        <li>
+          You can also add code if you'd like as so: <code>code code code</code>
+        </li>
+        <li>
+          If you'd like to add math equations,
+          <ul>
+            <li>
+              You can write inline equations like so: \( a^2 + b^2 = c^2 \)
+            </li>
+            <li>
+              You can write display equations like so: \[ a^2 + b^2 = c^2 \]
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </body>
 </html>
