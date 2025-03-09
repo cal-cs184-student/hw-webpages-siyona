@@ -109,18 +109,18 @@ points drawn.
 	    
 
       <h3>Part 2: Bezier surfaces with separable 1D de Casteljau</h3>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-      veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-      commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-      velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-      cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-      est laborum.
+      <p>
+	      The strategy I used for this question was from the lecture about how de Castejau's can be used by view the surface as a set of control points and to 
+evaluate every surface point using the parameters (u,v). 
+	      To implement de Casteljau's algorithm to Bezier surfaces from Bezier curves, I broke the problem down by the three methods given. For evaluate step, 
+I used very similar code from Part 1 but used a 3D Vector instead of a 2D one. For evaluate 1D, I understood from the question that it should output a single point so
+I called evaluate step recursively until a single point was found. This was similar to stepping through the evaluate step from Part 1. For the final method, I thought
+about how the curves should apply themselves to the overall 3D shape and made evaluate called evaluate 1D to treat the curve point outputs from evaluate 1D as the
+intermediate points for evaluate. 
 	      <figure>
         	<img src="./part2-teapot.png" alt="Teapot" style="width: 50%" />
        		<figcaption>Teapot!</figcaption>
 	      </figure>
-      
       </p>
 
       <h2>Section II: Triangle Meshes and Half-Edge Data Structure</h2>
