@@ -304,13 +304,33 @@ intermediate points for evaluate.
 
 
       <h3>Part 6: Loop subdivision for mesh upsampling</h3>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-      veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-      commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-      velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-      cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-      est laborum.
+      <p> I implemented loop subdivision within upsample using the pseudocode provided pertaining to the steps of the method. I found the 
+      new positions for the vertices and new positions for midpoints of the edges. I then split the edges from the original mesh and flipped certain edges based on the spec. 
+Finally, I copied the new vertex positions. 
+	When looking at how the meshes behave, I saw the sharp edges specifically the sharp corners start rounding out. Additionally, the shape grows more and more compact 
+after each loop subdivision. 
+	Through preprocessing, asymmetry in the cube can be fixed because of the improvement in triangle shapes and boundaries to ensure sharp edges and overall shape improvement.
+	      <div style="display: flex; flex-direction: column; align-items: center">
+			<table
+			  style="width: 100%; text-align: center; border-collapse: collapse"
+			>
+			  <tr>
+				<td style="text-align: center">
+				  <img src="./part6-teapot-1" width="400px" />
+				  <figcaption>Teapot 1</figcaption>
+				</td>
+				<td style="text-align: center">
+				  <img src="./part6-teapot-2" width="400px" />
+				  <figcaption>Teapot 2.</figcaption>
+				</td>
+				<td style="text-align: center">
+				  <img src="./part6-teapot-3" width="400px" />
+				  <figcaption>Teapot 3.</figcaption>
+				</td>
+			  </tr>
+			</table>
+		  </div>
+      </p>
 
       <h2>
         (Optional) Section III: Potential Extra Credit - Art Competition: Model
