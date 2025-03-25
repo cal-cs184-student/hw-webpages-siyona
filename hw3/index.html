@@ -28,12 +28,13 @@
 	<body>
 		<div class="container">
 		<h1>CS184/284A Spring 2025 Homework 3 Write-Up</h1>
-		<div style="text-align: center;">Names: </div>
+		<div style="text-align: center;">Names: Noah Abji & Siyona Sarma</div>
 
 		<br>
 
-		Link to webpage: (TODO) <a href="https://cs184.eecs.berkeley.edu/sp25">cs184.eecs.berkeley.edu/sp25</a>
-		Link to GitHub repository: (TODO) <a href="https://cs184.eecs.berkeley.edu/sp25">cs184.eecs.berkeley.edu/sp25</a>
+		Link to webpage: <a href="https://cal-cs184-student.github.io/hw-webpages-siyona/hw3/index.html">https://cal-cs184-student.github.io/hw-webpages-siyona/hw3/index.html</a>
+		<br>
+		Link to GitHub repository: <a href="https://github.com/cal-cs184-student/sp25-hw3-noah-and-siyona.git">https://github.com/cal-cs184-student/sp25-hw3-noah-and-siyona.git</a>
 		
 		<figure>
 			<img src="cornell.png" alt="Cornell Boxes with Bunnies" style="width:70%"/>
@@ -45,12 +46,65 @@
 		-->
 
 		<h2>Overview</h2>
-		Give a high-level overview of what you implemented in this homework. Think about what you've built as a whole. Share your thoughts on what interesting things you've learned from completing the homework.
+		Through this homework, we implemented the rendering pipeline for complex objects given the primitves which make them up and a camera location (as well)
+		as the BSDF of certain materials. As such, we implemented a bounding volume hierarchy through which we could effectively determine
+		ray intersection in the scene. Direct illumination and subsequently, global illumination were implemented to provide realistic lighting in the scene
+		during rendering and finally adaptive sampling was implemented to increase efficiency in rendering.
 
 		<h2>Part 1: Ray Generation and Scene Intersection</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		<h3>Walk through the ray generation and primitive intersection parts of the rendering pipeline.</h3>
+		<p>
+			The ray generation and primitive intersection parts of the rendering pipeline come at the very beginning. Essentially,
+			they are the base for which we can apply later parts of the project such as direct illumination, global illumination, etc.
+			Firstly, we use ray generation from the camera origin to determine which elements should be rendered (and visible) by tracing
+			the rays/line of vision of the camera. First, we generate rays by converting a series of normalized image (x, y) coordinates to camera space
+			coordinates (using the bounds provided in the spec) and then use the camera to world matrix to transform those coodinates to world space
+			before finally normalizing them so the provided ray starts from the origin and is normalized. Then per each pixel, we can sample some N 
+			points and generate rays in those directions to set up for testing primitive intersection. The primitives we are concerned with (which make up the
+			provided files) are triangles and spheres. We first need to use the rays we have generated to test if they intersect with a primitive (and if so, at
+			what t value so we know what the closest in-frame intersection is) so we can determine which points to render and how to light it given
+			the normal vector at the intersection (we call the brdf when we see an intersection which should then be rendered). We do not
+			test intersections ray-by-ray, but rather primitive by primitive.
+		</p>
+		<br>
+		<h3>Explain the triangle intersection algorithm you implemented in your own words.</h3>
+		<p>The triangle intersection algorithm I used was built off the Möller Trumbore algorithm provided in the lecture slides. Because this 
+			algorithm produces both the t value of the intersection as well as the barycentric coordinates, I was able to determine both whether an
+			intersection occurred as well as the t value of the intersection (to know if it is in frame and closest) by calculating the t, b1, and b2 values
+			according to the equation:
+		</p>
+		<img src="./q1/mollertrumbore.png" width="400px"></img>
+		<p> Then, to determine if the intersection occurred, I determined if all three barycentric coordinates (the third of which can be determined
+			from the other two) were all in the range 0 to 1 which would signify the intersection is inside the triangle. If the t was greater than min_t
+			and less than max_t, then the intersection is also in view and the new closest intersection. To calculate the normal vector, the barycentric coordinates
+			can be used to interpolate the normal vectors at the vertices across the triangle \[ \alpha * n_1 + \beta * n_2 + \gamma * n_3 \]
 
-		<p>Here is an example 2x2 gridlike structure using an HTML table. Each <b>tr</b> is a row and each <b>td</b> is a column in that row. You might find this useful for framing and showing your result images in an organized fashion.</p>
+			As such this algorithm was implemented in our code, the specifics of which are very simple.
+		</p>
+
+		<h3>Images with normal shading</h3>
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="./q1/CBspheres.png" width="400px"/>
+				  <figcaption>CBSpheres_lambertian.dae with normal shading</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="./q1/CBgems.png" width="400px"/>
+				  <figcaption>CBgems.dae with normal shading</figcaption>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="./q1/teapot.png" width="400px"/>
+				  <figcaption>teapot.dae with normal shading</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
+
+		<!-- <p>Here is an example 2x2 gridlike structure using an HTML table. Each <b>tr</b> is a row and each <b>td</b> is a column in that row. You might find this useful for framing and showing your result images in an organized fashion.</p>
 		<div style="display: flex; flex-direction: column; align-items: center;">
 			<table style="width: 100%; text-align: center; border-collapse: collapse;">
 			  <tr>
@@ -75,7 +129,7 @@
 			  </tr>
 			</table>
 		</div>
-		
+		 -->
 		<h2>Part 2: Bounding Volume Hierarchy</h2>
 		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
