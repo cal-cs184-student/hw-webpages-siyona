@@ -49,7 +49,9 @@
 		Through this homework, we implemented the rendering pipeline for complex objects given the primitves which make them up and a camera location (as well)
 		as the BSDF of certain materials. As such, we implemented a bounding volume hierarchy through which we could effectively determine
 		ray intersection in the scene. Direct illumination and subsequently, global illumination were implemented to provide realistic lighting in the scene
-		during rendering and finally adaptive sampling was implemented to increase efficiency in rendering.
+		during rendering and finally adaptive sampling was implemented to increase efficiency in rendering. One cool part about this project was being able to set so many 
+		options for how we wanted to render the image and I particularly thought implementing global illumination was really cool. It was neat to see the effect different
+		m levels had on the render and the lighting at that ray depth individually.
 
 		<h2>Part 1: Ray Generation and Scene Intersection</h2>
 		<h3>Walk through the ray generation and primitive intersection parts of the rendering pipeline.</h3>
@@ -134,13 +136,325 @@
 		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
 		<h2>Part 3: Direct Illumination</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		<h3>Walk through both implementations of the direct lighting function (TODO)</h3>
+		<h3>Rendered image examples with direct lighting function</h3>
+		<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			<tr>
+			  <td style="text-align: center;">
+				<img src="./q3/uniform/bunny_uniform.png" width="400px"/>
+				<figcaption>CBbunny.dae - uniform hemisphere sampling direct lighting</figcaption>
+			  </td>
+			  <td style="text-align: center;">
+				<img src="./q3/uniform/spheres_uniform.png" width="400px"/>
+				<figcaption>CBspheres_lambertian.dae - uniform hemisphere sampling direct lighting</figcaption>
+			  </td>
+			</tr>
+			<tr>
+			  <td style="text-align: center;">
+				<img src="./q3/importance/bunny_importance.png" width="400px"/>
+				<figcaption>CBbunny.dae - importance sampling direct lighting</figcaption>
+			  </td>
+			  <td style="text-align: center;">
+				<img src="./q3/importance/spheres_importance.png" width="400px"/>
+				<figcaption>CBspheres_lambertian.dae - important sampling direct lighting</figcaption>
+			  </td>
+			</tr>
+		  </table>
+		<h3>Different light ray amounts with direct lighting and important sampling (all images s == 1)</h3>
+		<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			<tr>
+			  <td style="text-align: center;">
+				<img src="./q3/light_rays/bunny_1_1.png" width="400px"/>
+				<figcaption>Bunny, l == 1</figcaption>
+			  </td>
+			  <td style="text-align: center;">
+				<img src="./q3/light_rays/bunny_1_4.png" width="400px"/>
+				<figcaption>Bunny, l == 4</figcaption>
+			  </td>
+			</tr>
+			<tr>
+			  <td style="text-align: center;">
+				<img src="./q3/light_rays/bunny_1_16.png" width="400px"/>
+				<figcaption>Bunny, l == 16</figcaption>
+			  </td>
+			  <td style="text-align: center;">
+				<img src="./q3/light_rays/bunny_1_64.png" width="400px"/>
+				<figcaption>Bunny, l == 64</figcaption>
+			  </td>
+			</tr>
+		  </table>
+		  <p>As seen above, the number of samples per light area plays a large role in making shadows less noisy. With only one sample 
+			per light area (and one sample per pixel as used in the images above), if the single cast light ray does not intersect with the light, this 
+			causes the direct lighting estimate to be black. Conversely, if it does, it reflects the light using the bsdf. As such, there is no 
+			blending or smoothness of shadows in the l == 1 example and it is extremely noisy. When l == 4 this is still an issue but there is significant 
+			improvement as the noise does not go quite as far from the bunny. When l == 16, the shadow seems to start converging to the correct area, but 
+			there is still a little bit of noise surrounding the shadow. When l == 64, te shadow looks fairly realistic and while the noise may still minorly exist, this is 
+			likely at this point due to the one sample per pixel.
+		  </p>
+		  <h3>Comparing uniform hemisphere sampling and lighting sampling</h3>
+		  <p>Uniform hemisphere sampling when applying direct lighting is very inefficient/may require significantly more rendering time and samples
+			to produce an image which is not noisy. This is because, unlike lighting sampling, the ray we cast can intersect anywhere or not intersect with 
+			the scene at all. In order to get an estimate for the lighting at that area, we need to simply hope that the cast ray intersects a light source
+			and therefore it takes longer to converge and also causes noise when sample rates are low. Lighting sampling contrarily directly casts rays in the 
+			direction of light sources which is effective in determing direct lighting. Because we don't have to worry about a large amount of rays which don't
+			intersect the scene or a light source at all, we can be more confident the image converges with fewer samples and the noise is not present. The results
+			I've described can be seem in the above images where uniform hemisphere sampling clearly leads to a more noisy image.
+		  </p>
 
 		<h2>Part 4: Global Illumination</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		<h3>Walk through your implementation of the indirect lighting function</h3>
+		<p>To implement the direct lighting function with Russian roulette, I used the pseudocode from the slides:</p>
+		<img src="./q4/indirect_lighting_pseudocode.png" width="400px"></img>
+		<p>Intuitively, it works as follows. First, we determine the one bounce radiance on the given point. That is added to our L_out (see note below about <code>isAccumBounce</code>)
+		Then, determine a sample direction using <code>sample_f</code>. This both populates
+		the <code>w_i</code> field (object coordinates) as well as the <code>pdf</code> which can be used later. The w_i is then converted to
+		world coordinates. Using the sampled w_i which is a new bounce, we can generate a ray from the current point we hit, <code>hit_p</code>, as 
+	    the origin, and use the normalized w_i as the direction. This is the new ray we will (possibly) recurse on and add lighting from. Before
+	    recursing, we need to test the ray intersects the scene. If it does, we can calculate the bsdf of (w_out, w_i). We also determine
+	    out <code>cos_theta</code> value. Finally, to implement russian roulette, we can use the <code>coin_flip(p)</code> function to recurse with 
+	    probability p. We set our continutation probability to 0.7. If the result of the flip is true, we recurse on the newly generated ray and intersection (populated by our ray-scene intersection test)
+	    and sum the values to L_out according to the pseudocode above. <b>Some important notes as to how <code>max_depth</code> and <code>isAccumBounce</code>
+		were implemented:</b>
+		<ul>
+			<li>For the newly generated ray, we set the depth to the old ray depth minus one. The initial ray depth is set in <code>raytrace_pixel</code> to
+			<code>max_depth</code>. When the input ray depth is 0, we do not recurse. We return a zero vector.</li>
+			<li>When <code>isAccumBounce</code> is false, we do not add the <code>one_bounce_radiance</code> at the current depth. We directly return
+			the <code>one_bounce_radiance</code> when the current ray depth is 1 (because this makes it the final depth). We also always return the value of the
+			next bounce and do not sum it to a total when input ray depth is greater than 1 (that is, if we make it that far due to ray-scene intersection and Russian roulette).</li>
+		</ul>
+		</p>
+		<h3>Images rendered with global illumination</h3>
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="./q4/scenes/bunny.png" width="400px"/>
+				  <figcaption>CBBunny.dae - 1024 samples per pixel </figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="./q4/scenes/spheres.png" width="400px"/>
+				  <figcaption>CBspheres_lambertian.dae - 1024 samples per pixel</figcaption>
+				</td>
+				<td style="text-align: center;">
+					<img src="./q4/scenes/blob.png" width="400px"/>
+					<figcaption>blob.dae - 1024 samples per pixel</figcaption>
+				  </td>
+			  </tr>
+			</table>
+		</div>
+		<h3>Bunny with only direct vs only indrect illumination</h3>
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="./q4/dir_indir/bunny_direct.png" width="400px"/>
+				  <figcaption>CBbunny.dae direct lighting only - 1024 spp</figcaption>
+				</td>
+				<td style="text-align: center;">
+					<img src="./q4/dir_indir/bunny_indrect.png" width="400px"/>
+					<figcaption>CBbunny.dae indirect lighting only - 1024 spp</figcaption>
+				  </td>
+			  </tr>
+			</table>
+		</div>
+		<p>In the above comparison, we can see that while the direct lighting arguably provides most of the lighting in the scene,
+			indrect lighting still plays a large role in lighting covered areas (from the light source) and imparting reflectant color
+			on certain parts of the scene. There is quite a lot missing without the indirect lighting. Neither scene, however, looks realistic
+			individually.
+		</p>
+		<h3>M bounces of light accumulated and unaccumulated on CBbunny.dae</h3>
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="./q4/accum_no_rr/bunny_m_0_accum.png" width="200px"/>
+				  <figcaption>Accumulated, m == 0</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="./q4/accum_no_rr/bunny_m_1_accum.png" width="200px"/>
+				  <figcaption>Accumulated, m == 1</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="./q4/accum_no_rr/bunny_m_2_accum.png" width="200px"/>
+				  <figcaption>Accumulated, m == 2</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="./q4/accum_no_rr/bunny_m_3_accum.png" width="200px"/>
+				  <figcaption>Accumulated, m == 3</figcaption>
+				</td>
+			    <td style="text-align: center;">
+			      <img src="./q4/accum_no_rr/bunny_m_4_accum.png" width="200px"/>
+			      <figcaption>Accumulated, m == 4</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="./q4/accum_no_rr/bunny_m_5_accum.png" width="200px"/>
+				  <figcaption>Accumulated, m == 5</figcaption>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="./q4/noaccum_no_rr/bunny_m_0_noaccum.png" width="200px"/>
+				  <figcaption>Unaccumulated, m == 0</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="./q4/noaccum_no_rr/bunny_m_1_noaccum.png" width="200px"/>
+				  <figcaption>Unaccumulated, m == 1</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="./q4/noaccum_no_rr/bunny_m_2_noaccum.png" width="200px"/>
+				  <figcaption>Unaccumulated, m == 2</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="./q4/noaccum_no_rr/bunny_m_3_noaccum.png" width="200px"/>
+				  <figcaption>Unaccumulated, m == 3</figcaption>
+				</td>
+			    <td style="text-align: center;">
+			      <img src="./q4/noaccum_no_rr/bunny_m_4_noaccum.png" width="200px"/>
+			      <figcaption>Unaccumulated, m == 4</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="./q4/noaccum_no_rr/bunny_m_5_noaccum.png" width="200px"/>
+				  <figcaption>Unaccumulated, m == 5</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
+		<p>In the above table, what I can see for the second bounce of light when <code>isAccumBounces=false</code> is that the second
+		bounce of light (<code>m == 2</code>) seems to contribute a lot of hue onto the ground and a little bit onto the bunny itself. It also
+		seems to be very important for lighting certain areas which are not in the direct path of the light, which ends up lightening the shadow under the bunny.
+		The third bounce of light, similarly, provides additional lighting to the image and seems to make some areas of the image a little bit
+		more sharp. While the difference when it is added is small, it certainly fills in the gaps in certain areas (figuratively speaking).
+	
+		As the m value increases, while it is clear that the unaccumulated bounces seem to provide significantly less lighting each time, the quality of the 
+		accumulated image increases each time, however minutely as m increases. In my opinion, there is not a large difference between m == 2 and m == 5.
+	</p>
+
+		<h3>Russian Roulette output - all images in this section use Russian Roulette</h3>
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="./q4/rr/bunny_m_0_rr.png" width="400px"/>
+				  <figcaption>m == 0</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="./q4/rr/bunny_m_1_rr.png" width="400px"/>
+				  <figcaption>m == 1</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="./q4/rr/bunny_m_2_rr.png" width="400px"/>
+				  <figcaption>m == 2</figcaption>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+					<img src="./q4/rr/bunny_m_3_rr.png" width="400px"/>
+					<figcaption>m == 3</figcaption>
+				  </td>
+				  <td style="text-align: center;">
+					<img src="./q4/rr/bunny_m_4_rr.png" width="400px"/>
+					<figcaption>m == 4</figcaption>
+				  </td>
+				  <td style="text-align: center;">
+					<img src="./q4/rr/bunny_m_4_rr.png" width="400px"/>
+					<figcaption>m == 100</figcaption>
+				  </td>
+			  </tr>
+			</table>
+		</div>
+
+		<h3>Rendered views under different sample rates with 4 light rays</h3>
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="./q4/spp/spheres_1spp.png" width="400px"/>
+				  <figcaption>s == 1</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="./q4/spp/spheres_2spp.png" width="400px"/>
+				  <figcaption>s == 2</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="./q4/spp/spheres_4spp.png" width="400px"/>
+				  <figcaption>s == 4</figcaption>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+					<img src="./q4/spp/spheres_8spp.png" width="400px"/>
+					<figcaption>s == 8</figcaption>
+				  </td>
+				  <td style="text-align: center;">
+					<img src="./q4/spp/spheres_16spp.png" width="400px"/>
+					<figcaption>s == 16</figcaption>
+				  </td>
+				  <td style="text-align: center;">
+					<img src="./q4/spp/spheres_64spp.png" width="400px"/>
+					<figcaption>s == 64</figcaption>
+				  </td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+					<img src="./q4/spp/spheres_1028spp.png" width="400px"/>
+					<figcaption>s == 1024</figcaption>
+				  </td>
+			  </tr>
+			</table>
+		</div>
+		<p>As seen above, the number of samples per pixel plays a very significant role in decreasing graininess in the image. The image
+			rendered with 1024 samples per pixel is extremely smooth, though costly to run (which is optimized in the next section!). However, all 
+			images with a lower sample rate seem to be a bit grainy (64 and below). When s == 64, the image is very clear, but there is a little bit of
+			roughness as it appears around the image. When s is even lower, the balls look extremely staticy and for an s below 8 it seems like there are certain 
+			areas of the image which did not render correctly or have a ray sampled at all. The s == 1 image is extremely grainy and missing rendering in many areas.
+		</p>
 
 		<h2>Part 5: Adaptive Sampling</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		<h3>Explain adaptive sampling. Walk through your implementation of adaptive sampling</h3>
+		Adaptive sampling is a method through which we can possibly improve render times or focus our sampling on areas which need
+		more samples to properly converge without wasting compute on areas which converge very quickly. The idea is essentially to 
+		keep track of the mean and variance of the samples and thus use this to create a confidence interval with a max width between
+		ends of the interval determined by the maxTolerance variable. Thus, if the distribution of samples in a certain pixel is very
+		close, after some low number of samples, we can say with high confidence that the current sample is very close to the true value
+		so we don't need to keep sampling. For samples which take longer to converge, we will not break so quickly.
+		<br>
+		<br>
+		To implement this, in the <code>raytrace_pixel()</code> function, I've keep track of the sum of illuminances and the sum of squared illuminances (<code>s1, s2</code>).
+		From this, every <code>samplesPerBatch</code> samples, I calculate the mean and variance, which I then use to calculate <code>I</code> and determine
+		if the <code>I</code> value is less than the max tolerance times the mean.
+		
+		All equations used are provided in the spec. For reference, I is calculated as \[ I = 1.96 * \frac{\sigma}{\sqrt{n}} \]
+		
+		If <code>I</code> is small enough, the current number of total samples is recorded and the loop
+		breaks because we don't have to sample any further as the sample has converged. Then, the sample count buffer is updated with the total samples
+		for this pixel and the total_radiance is divided by that number (NOT <code>num_samples</code>). If the <code>I</code> value is greater, continue.
+
+		<h3>Scenes</h3>
+
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="./q5/bunny.png" width="400px"/>
+				  <figcaption>Bunny without noise. 2048 samples per pixel, m = 5</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="./q5/bunny_rate.png" width="400px"/>
+				  <figcaption>Bunny rate. 2048 samples per pixel, m = 5</figcaption>
+				</td>
+			  </tr>
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="./q5/blob.png" width="400px"/>
+				  <figcaption>Blob without noise. 2048 samples per pixel, m = 5.</figcaption>
+				</td>
+				<td style="text-align: center;">
+					<img src="./q5/blob_rate.png" width="400px"/>
+					<figcaption>Blob rate. 2048 samples per pixel, m = 5.</figcaption>
+				  </td>
+			  </tr>
+			</table>
+		</div>
 
 		<h2>(Optional) Part 6: Extra Credit Opportunities</h2>
 		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
