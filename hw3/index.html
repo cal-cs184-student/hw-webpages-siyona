@@ -156,10 +156,14 @@ and right sides of the trees.
 			</tr>
 		</table>
 		<h3> Compare rendering times on a few scenes with moderately complex geometries with and without BVH acceleration.</h3>
+		<p>BVH acceleration significantly reduces the rendering times for all of the scenes. For example, with BVH acceleration, CBLucy takes 0.1977s and max_planck takes 
+0.1411s. Without BVH acceleration, CBLucy takes around 40 minutes. BVH accleration is able to reduce the rendering times because Bounding Volume Hierarchy trees organize primitives 
+into structures (bounding boxes) to allow for easy traversal where several primitives can be skipped over. This structure was implemented with the BVH construction algorithm which resulted
+in the reduced rendering times. </p>
 		
 		
 		<h2>Part 3: Direct Illumination</h2>
-		<h3>Walk through both implementations of the direct lighting function (TODO)</h3>
+		<h3>Walk through both implementations of the direct lighting function</h3>
 		<p>Estimate Direct Lighting Hemisphere: I kept the existing code making a coordinate system, pointing w_out towards the source of the ray, and calculating the
 number of samples. For the sampling loop, I sampled a direction, cast a shadow ray, checked if the light intersected, and got the radiance of the object in the intersection. 
 I then used the provided Monte Carlo estimator for the final calculation.
