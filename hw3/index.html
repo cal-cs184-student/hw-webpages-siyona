@@ -133,8 +133,17 @@
 		</div>
 		 -->
 		<h2>Part 2: Bounding Volume Hierarchy</h2>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
+		<h3>Walk through your BVH construction algorithm. Explain the heuristic you chose for picking the splitting point.</h3>
+		<p>
+			The BVH construction algorithm first creates a bounding box and expands the box to ensure that it contains all of the primitives. Then a new node is created and the 
+distance between the starting and ending primitive is checked to ensure that the number of primitives is not less than the maximum leaf size. If it is, it is a leaf node and the node is returned.
+The splitting axis is then computed (based on the longest axis) and the centroid of each primitive's bounding box is found based on the splitting axis. The average of all of the centroid is the split point. This heuristic was chosen
+as it was the suggested one in the spec. It helps to create a balanced Bounding Volume Hierarchy tree and to avoid overlap between bounding boxes. The algorithm then splits the primitives based on the 
+centroid or manually splits them in half (due to edge cases where all primitives might fall into one group). The BVH construction algorithm finishes by recursively constructing the left
+and right sides of the trees. 
+		</p>
+		<br>
+		
 		<h2>Part 3: Direct Illumination</h2>
 		<h3>Walk through both implementations of the direct lighting function (TODO)</h3>
 		<h3>Rendered image examples with direct lighting function</h3>
