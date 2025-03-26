@@ -160,6 +160,11 @@ and right sides of the trees.
 		
 		<h2>Part 3: Direct Illumination</h2>
 		<h3>Walk through both implementations of the direct lighting function (TODO)</h3>
+		<p>Estimate Direct Lighting Hemisphere: I kept the existing code making a coordinate system, pointing w_out towards the source of the ray, and calculating the
+number of samples. For the sampling loop, I sampled a direction, cast a shadow ray, checked if the light intersected, and got the radiance of the object in the intersection. 
+I then used the provided Monte Carlo estimator for the final calculation.
+		Estimate Direct Lighting Importance: For the loop in this function, I iterated over all of the lights in a scene. I sampled each light for the size of the area light to 
+ensure better precision. A shadow ray is created and if the light does not hit the object, move to the next sample in the loop. Finally, the algorithm computes the average estimated accumulated lighting distribution.</p>
 		<h3>Rendered image examples with direct lighting function</h3>
 		<table style="width: 100%; text-align: center; border-collapse: collapse;">
 			<tr>
