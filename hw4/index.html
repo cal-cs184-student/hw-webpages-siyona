@@ -148,13 +148,7 @@
       versa.
 
       <h2>Part 3: Handling collisions with other objects</h2>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-      veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-      commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-      velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-      cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-      est laborum.
+      <p>To implement the collision between the cloth and the sphere (3.1), I followed the steps provided in the spec. I found the distance from the Point Mass’s position from the origin of the sphere and if that was less than the radius of the sphere. If it was, I bumped the position of the Point Mass by finding the tangent point, then subtracting the pm’s last position from the tangent point. Then, I reset the point’s position by adding the point mass’s last position to (1-f) multiplied by the correction vector. I used a similar process for the cloth’s collision with the plane and found if the cloth was intersected any part of the plane using dot products and used the SURFACE OFFSET variable for this calculation. </p>
 
       <h2>Part 4: Handling self-collisions</h2>
       <p>To implement self-collision, I went through breaking the problem down by each method. Cloth::hash_position mapped each position (as how it is described in the spec) to a 3D grid and gave each position a hash key that was an identifier for the position within the hash table. 
