@@ -279,6 +279,8 @@ Fragment shaders compute the color of the rendered image and lighting effects (l
           </tr>
         </table>
       </div>
+The two approaches both incorporated textures and the Blinn-Phong Model in order to include the lighting. However, in implementation, the vertex shaders of both were different. Visually, you can see this in the jaggies created in the displacement picture. 
+For the different coarseness levels, the differences are more visible for displacement mapping because the shape (specifically the edges) of the sphere changes. 
 <div style="display: flex; flex-direction: column; align-items: center">
         <table
           style="width: 100%; text-align: center; border-collapse: collapse"
