@@ -148,7 +148,14 @@
       versa.
 
       <h2>Part 3: Handling collisions with other objects</h2>
-      <p>To implement the collision between the cloth and the sphere (3.1), I followed the steps provided in the spec. I found the distance from the Point Mass’s position from the origin of the sphere and if that was less than the radius of the sphere. If it was, I bumped the position of the Point Mass by finding the tangent point, then subtracting the pm’s last position from the tangent point. Then, I reset the point’s position by adding the point mass’s last position to (1-f) multiplied by the correction vector. I used a similar process for the cloth’s collision with the plane and found if the cloth was intersected any part of the plane using dot products and used the SURFACE OFFSET variable for this calculation. </p>
+      To implement the collision between the cloth and the sphere (3.1), 
+I followed the steps provided in the spec. I found the distance from the Point Mass’s position 
+from the origin of the sphere and if that was less than the radius of the sphere. If it was, 
+I bumped the position of the Point Mass by finding the tangent point, then subtracting the pm’s 
+last position from the tangent point. Then, I reset the point’s position by adding the point mass’s 
+last position to (1-f) multiplied by the correction vector. I used a similar process for the cloth’s collision 
+with the plane and found if the cloth was intersected any part of the plane using dot products and used the SURFACE OFFSET 
+variable for this calculation.
 	<div style="display: flex; flex-direction: column; align-items: center">
         <table
           style="width: 100%; text-align: center; border-collapse: collapse"
