@@ -223,6 +223,9 @@ variable for this calculation.
 	    Shader programs affect how images are rendered and displayed. They affect the lighting, color, and texture of the objects that are rendered on the screen. To create these
 lighting and material effects, we use vertex shaders and fragment shaders. Vertex shaders move vertexes from object space to screen space and compute lighting per vertex shown on the screen. 
 Fragment shaders compute the color of the rendered image and lighting effects (like those used in the Blinn-Phong model).
+
+	    The Blinn-Phong model is a model used to create a shiny/glossy effect when rendering images. Through three different types of lighting, ambient, diffuse, and specular, it 
+is able to achieve the intended effect. It utilizes light direction vectors, reflected light, and light intensity through the equation shown in the spec and in lecture. It is implemented below.
       <div style="display: flex; flex-direction: column; align-items: center">
         <table
           style="width: 100%; text-align: center; border-collapse: collapse"
