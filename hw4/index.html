@@ -149,7 +149,18 @@
 
       <h2>Part 3: Handling collisions with other objects</h2>
       <p>To implement the collision between the cloth and the sphere (3.1), I followed the steps provided in the spec. I found the distance from the Point Mass’s position from the origin of the sphere and if that was less than the radius of the sphere. If it was, I bumped the position of the Point Mass by finding the tangent point, then subtracting the pm’s last position from the tangent point. Then, I reset the point’s position by adding the point mass’s last position to (1-f) multiplied by the correction vector. I used a similar process for the cloth’s collision with the plane and found if the cloth was intersected any part of the plane using dot products and used the SURFACE OFFSET variable for this calculation. </p>
-
+	<div style="display: flex; flex-direction: column; align-items: center">
+        <table
+          style="width: 100%; text-align: center; border-collapse: collapse"
+        >
+          <tr>
+            <td style="text-align: center">
+              <img src="q4/Screenshot 2025-04-08 at 10.59.32 PM.png" width="400px" />
+              <figcaption>Cloth Resting on the Plane</figcaption>
+            </td>
+          </tr>
+        </table>
+      </div>    
       <h2>Part 4: Handling self-collisions</h2>
       <p>To implement self-collision, I went through breaking the problem down by each method. Cloth::hash_position mapped each position (as how it is described in the spec) to a 3D grid and gave each position a hash key that was an identifier for the position within the hash table. 
 	      Then, in Cloth::build_spatial_map, I put all of the point masses into position by looping over all of them with a for loop and then calling Cloth::hash_position 
