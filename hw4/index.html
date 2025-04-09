@@ -157,13 +157,55 @@
       est laborum.
 
       <h2>Part 4: Handling self-collisions</h2>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-      veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-      commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-      velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-      cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-      est laborum.
+      <p>To implement self-collision, I went through breaking the problem down by each method. Cloth::hash_position mapped each position (as how it is described in the spec) to a 3D grid and gave each position a hash key that was an identifier for the position within the hash table. 
+	      Then, in Cloth::build_spatial_map, I put all of the point masses into position by looping over all of them with a for loop and then calling Cloth::hash_position 
+	      on each point mass. This was (as described in Cloth::hash_position spec notes) each point mass has a unique position in the map. Then, for the final method Cloth::self-collide, I looped over all of the point masses in the map and if two adjacent particles were less than 
+	      2∗thickness apart, I made a correction vector adjusted the position of the particles. I also updated Cloth::simulate to build the spatial map and call self_collide on all of the point masses. </p>
+	<div style="display: flex; flex-direction: column; align-items: center">
+        <table
+          style="width: 100%; text-align: center; border-collapse: collapse"
+        >
+          <tr>
+            <td style="text-align: center">
+              <img src="q4/part4_original_pt1.png" width="400px" />
+              <figcaption>Start state</figcaption>
+            </td>
+            <td style="text-align: center">
+              <img src="q4/part4_original_pt3.png" width="400px" />
+              <figcaption>Mid-way folded</figcaption>
+            </td>
+	<td style="text-align: center">
+              <img src="q4/part4_original_pt5.png" width="400px" />
+              <figcaption>Resting State</figcaption>
+            </td>
+          </tr>
+          <tr>
+            <td style="text-align: center">
+              <img src="q4/part4_density_pt1.png" width="400px" />
+              <figcaption>Start State (Density:20g/cm^2)</figcaption>
+            </td>
+            <td style="text-align: center">
+              <img src="q4/part4_density_pt2.png" width="400px" />
+              <figcaption>Mid-way folded (Density:20g/cm^2)</figcaption>
+            </td>
+	<td style="text-align: center">
+              <img src="q4/part4_density_pt3.png" width="400px" />
+              <figcaption>Resting State (Density:20g/cm^2)</figcaption>
+            </td>
+          </tr>
+	<tr>
+            <td style="text-align: center">
+              <img src="q4/part4_ks_pt1.png" width="400px" />
+              <figcaption>Start State (KS:3000 N/M)</figcaption>
+            </td>
+            <td style="text-align: center">
+              <img src="q4/part4_ks_pt2.png" width="400px" />
+              <figcaption>Mid-way folded (KS:3000 N/M)</figcaption>
+            </td>
+          </tr>
+        </table>
+      </div>
+<p>When the density was increased, the cloth fell as if it had more weight to it, so the folds sagged more, and the cloth didn't fold on itself in its resting state. When the spring constant was decreased, the cloth fell quicker and bundled more in its resting state</p>
 
       <h2>Part 5: Shaders</h2>
       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
